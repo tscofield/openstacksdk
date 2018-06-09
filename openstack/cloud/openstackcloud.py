@@ -904,13 +904,14 @@ class OpenStackCloud(_normalize.Normalizer):
         return project
 
     def create_project(
-            self, name, description=None, domain_id=None, enabled=True):
+            self, name, description=None, domain_id=None, parent=None, enabled=True):
         """Create a project."""
         with _utils.shade_exceptions(
                 "Error in creating project {project}".format(project=name)):
             project_ref = self._get_domain_id_param_dict(domain_id)
             project_ref.update({'name': name,
                                 'description': description,
+                                'parent': parent,
                                 'enabled': enabled})
             endpoint, key = ('tenants', 'tenant')
             if self._is_client_version('identity', 3):
